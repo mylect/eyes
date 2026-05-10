@@ -21,11 +21,21 @@
         LINEアカウント情報を確認しています。
       </div>
 
-      <button id="openButton" class="button" data-mode="check">
-        日次チェックフォームへ進む
-      </button>
+      <form id="mylectForm" method="GET">
+        <input type="hidden" name="action" value="openForm" />
+        <input type="hidden" name="mode" value="check" />
+        <input type="hidden" id="userIdInput" name="userId" value="" />
+
+        <button id="openButton" class="button" type="submit" disabled>
+          日次チェックフォームへ進む
+        </button>
+      </form>
 
       <a class="back-link" href="./index.html">トップに戻る</a>
+
+      <p class="notice">
+        日次チェックが5回分たまるごとに、MylectがAIで状態の傾向を整理します。
+      </p>
     </section>
   </main>
 
