@@ -2,50 +2,36 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>日次チェック | Mylect</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <main class="app-shell">
-    <section class="hero-card compact">
-      <div class="brand-pill">
-        <span class="brand-dot"></span>
-        MYLECT DAILY CHECK
-      </div>
+    <section class="card">
+      <div class="badge">MYLECT DAILY CHECK</div>
 
-      <h1>
-        今日のコンディションチェック
-      </h1>
+      <h1>今日の状態を記録する</h1>
 
-      <p class="lead">
-        今日の心身の状態を1分で記録しましょう。
-        日次チェックが5回分たまるごとに、MylectがAIで傾向を整理します。
+      <p>
+        今日の睡眠・ストレス・体調・気分を1分で記録します。5回分たまるごとにAI分析が届きます。
       </p>
 
-      <div id="status" class="status-box">
-        準備中です。下のボタンからフォーム画面に進んでください。
+      <div id="status" class="status">
+        LINEアカウント情報を確認しています。
       </div>
 
-      <button id="openButton" class="main-button" data-mode="check">
+      <button id="openButton" class="button" data-mode="check">
         日次チェックフォームへ進む
       </button>
 
-      <a class="text-link" href="./index.html">トップに戻る</a>
-
-      <div class="notice">
-        5回分の記録がたまると、LINEにAI分析レポートが届きます。
-      </div>
+      <a class="back-link" href="./index.html">トップに戻る</a>
     </section>
-
-    <footer class="footer">
-      Mylect / Daily condition check
-    </footer>
   </main>
 
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="./config.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
-
 
