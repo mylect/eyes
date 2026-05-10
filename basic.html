@@ -21,11 +21,21 @@
         LINEアカウント情報を確認しています。
       </div>
 
-      <button id="openButton" class="button" data-mode="basic">
-        基本情報フォームへ進む
-      </button>
+      <form id="mylectForm" method="GET">
+        <input type="hidden" name="action" value="openForm" />
+        <input type="hidden" name="mode" value="basic" />
+        <input type="hidden" id="userIdInput" name="userId" value="" />
+
+        <button id="openButton" class="button" type="submit" disabled>
+          基本情報フォームへ進む
+        </button>
+      </form>
 
       <a class="back-link" href="./index.html">トップに戻る</a>
+
+      <p class="notice">
+        入力後、Mylectがあなたの基本情報を受け取り、日次チェックの準備が整います。
+      </p>
     </section>
   </main>
 
