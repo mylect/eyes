@@ -1,527 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mylect eyes</title>
-
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-  <style>
-    :root {
-      --green-50: #f2fbf6;
-      --green-100: #dcf7e8;
-      --green-200: #bff0d5;
-      --green-300: #94dfb8;
-      --green-500: #52b788;
-      --green-600: #2f946b;
-      --green-700: #1f6f52;
-      --ink: #15251d;
-      --muted: #66756d;
-      --line: rgba(82, 183, 136, 0.18);
-      --white: rgba(255, 255, 255, 0.82);
-      --shadow: 0 24px 70px rgba(31, 111, 82, 0.16);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans JP", sans-serif;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(191, 240, 213, 0.95), transparent 32%),
-        radial-gradient(circle at 88% 18%, rgba(220, 247, 232, 0.9), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(148, 223, 184, 0.42), transparent 42%),
-        linear-gradient(145deg, #f8fffb 0%, #eefaf3 48%, #f9fffb 100%);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
-
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      width: 280px;
-      height: 280px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.42);
-      filter: blur(6px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::before {
-      top: -80px;
-      right: -80px;
-    }
-
-    body::after {
-      bottom: -120px;
-      left: -80px;
-    }
-
-    .wrap {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px 18px;
-    }
-
-    .card {
-      position: relative;
-      width: 100%;
-      max-width: 430px;
-      padding: 30px 24px 24px;
-      border: 1px solid rgba(255, 255, 255, 0.76);
-      border-radius: 32px;
-      background: var(--white);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.72), transparent 36%),
-        radial-gradient(circle at 86% 12%, rgba(148, 223, 184, 0.3), transparent 32%);
-      pointer-events: none;
-    }
-
-    .content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .brandRow {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 26px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(145deg, #ffffff, #dff8ec);
-      border: 1px solid rgba(82, 183, 136, 0.22);
-      box-shadow: 0 10px 24px rgba(82, 183, 136, 0.18);
-      font-size: 20px;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-
-    .caption {
-      margin-top: 4px;
-      font-size: 11px;
-      color: var(--green-700);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .pill {
-      flex-shrink: 0;
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.64);
-      border: 1px solid var(--line);
-      color: var(--green-700);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .heroIcon {
-      width: 74px;
-      height: 74px;
-      margin: 0 auto 20px;
-      border-radius: 28px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 32% 25%, #ffffff 0%, #ffffff 18%, transparent 19%),
-        linear-gradient(145deg, #dff8ec, #bff0d5);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        0 18px 36px rgba(82, 183, 136, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.86);
-      font-size: 32px;
-    }
-
-    .title {
-      margin: 0;
-      text-align: center;
-      font-size: clamp(22px, 6vw, 28px);
-      line-height: 1.35;
-      font-weight: 850;
-      letter-spacing: -0.04em;
-      color: var(--ink);
-    }
-
-    .text {
-      margin: 14px auto 0;
-      max-width: 320px;
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.9;
-      color: var(--muted);
-      letter-spacing: 0.01em;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin: 24px 0 18px;
-    }
-
-    .step {
-      min-height: 68px;
-      padding: 11px 8px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.58);
-      border: 1px solid var(--line);
-      text-align: center;
-    }
-
-    .stepNum {
-      display: inline-grid;
-      place-items: center;
-      width: 22px;
-      height: 22px;
-      margin-bottom: 6px;
-      border-radius: 999px;
-      background: var(--green-100);
-      color: var(--green-700);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .stepText {
-      font-size: 11px;
-      line-height: 1.45;
-      color: #415047;
-      font-weight: 700;
-    }
-
-    .status {
-      min-height: 42px;
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(242, 251, 246, 0.78);
-      border: 1px solid var(--line);
-      color: var(--green-700);
-      font-size: 12px;
-      line-height: 1.5;
-      font-weight: 700;
-      text-align: center;
-      word-break: break-all;
-    }
-
-    .button {
-      display: none;
-      width: 100%;
-      margin-top: 16px;
-      padding: 15px 18px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, var(--green-500), var(--green-600));
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      box-shadow: 0 16px 30px rgba(47, 148, 107, 0.26);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
-    }
-
-    .button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 20px 36px rgba(47, 148, 107, 0.32);
-    }
-
-    .button:active {
-      transform: translateY(0);
-      opacity: 0.9;
-    }
-
-    .button.show {
-      display: block;
-    }
-
-    .note {
-      margin-top: 16px;
-      text-align: center;
-      color: #7b8a82;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .error {
-      margin-top: 16px;
-      color: #a03a2d;
-      font-size: 13px;
-      line-height: 1.7;
-      text-align: left;
-      background: #fff3f0;
-      border: 1px solid rgba(180, 35, 24, 0.12);
-      border-radius: 18px;
-      padding: 14px;
-      word-break: break-all;
-    }
-
-    @media (max-width: 390px) {
-      .card {
-        padding: 26px 18px 20px;
-        border-radius: 28px;
-      }
-
-      .brandRow {
-        align-items: flex-start;
-      }
-
-      .pill {
-        display: none;
-      }
-
-      .flow {
-        gap: 6px;
-      }
-
-      .step {
-        padding: 10px 5px;
-      }
-
-      .stepText {
-        font-size: 10px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Mylect</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="content">
-        <div class="brandRow">
-          <div class="brand">
-            <div class="mark">🌿</div>
-            <div>
-              <div class="logo">Mylect eyes</div>
-              <div class="caption">wellness check-in</div>
-            </div>
-          </div>
-          <div class="pill">LINE連携中</div>
-        </div>
-
-        <div class="heroIcon">🕊️</div>
-
-        <h1 class="title" id="title">フォームを準備しています</h1>
-
-        <p class="text" id="message">
-          LINEアカウントとフォームを安全に連携しています。あなたの状態をやさしく記録する準備をしています。
-        </p>
-
-        <div class="flow">
-          <div class="step">
-            <div class="stepNum">1</div>
-            <div class="stepText">LINE認証</div>
-          </div>
-          <div class="step">
-            <div class="stepNum">2</div>
-            <div class="stepText">ID自動入力</div>
-          </div>
-          <div class="step">
-            <div class="stepNum">3</div>
-            <div class="stepText">フォームへ移動</div>
-          </div>
-        </div>
-
-        <div class="status" id="status">Initializing...</div>
-
-        <button class="button" id="openButton">フォームを開く</button>
-
-        <div class="note">
-          うまく自動で開かない場合は、上のボタンからフォームを開いてください。
-        </div>
-
-        <div id="errorBox"></div>
+  <main class="app-shell">
+    <section class="hero-card">
+      <div class="brand-pill">
+        <span class="brand-dot"></span>
+        MYLECT CARE CHECK
       </div>
-    </div>
-  </div>
 
-  <script>
-    /**
-     * =========================
-     * Mylect LIFF Config
-     * =========================
-     */
+      <div class="hero-visual">
+        <div class="orb orb-main"></div>
+        <div class="orb orb-sub"></div>
+        <div class="pulse-ring"></div>
+      </div>
 
-    // 1. LINE Developersで発行されたLIFF IDに差し替え
-    const LIFF_ID = '2010027434-NUnlBPBC';
+      <h1>
+        今日の自分を、<br />
+        すこし丁寧に見つめる。
+      </h1>
 
-    // 2. GoogleフォームのプレフィルURLに差し替え
-    //    entry.xxxxx=__USERID__ の形にしておく
-    const FORM_URLS = {
-      basic: 'https://docs.google.com/forms/d/e/1FAIpQLSeU9lDiQxSa5MkDqIbTXnJtQmPcN8p0lgcFN8WUa1qSwiqyTQ/viewform?usp=pp_url&entry.1555418193=__USERID__',
-      check: 'https://docs.google.com/forms/d/e/1FAIpQLSehPhHWj03GMR3SRcb-bUf7yTI6Peax6Erv3NCSSlxNsyukhA/viewform?usp=pp_url&entry.271091792=__USERID__'
-    };
+      <p class="lead">
+        Mylectは、日々の睡眠・食事・ストレス・体調の変化を記録し、
+        看護的な視点とAIであなたのコンディション傾向を整理するサービスです。
+      </p>
 
-    /**
-     * URL例:
-     * 基本情報フォーム:
-     * https://xxxx.github.io/mylect-liff/?type=basic
-     *
-     * 日時チェックフォーム:
-     * https://xxxx.github.io/mylect-liff/?type=check
-     */
+      <div class="action-list">
+        <a class="action-card primary" href="./basic.html">
+          <span class="action-kicker">FIRST STEP</span>
+          <span class="action-title">基本情報を入力する</span>
+          <span class="action-desc">初回のみ。生活リズムや体調傾向を登録します。</span>
+        </a>
 
-    const params = new URLSearchParams(window.location.search);
-    const type = params.get('type') || 'basic';
+        <a class="action-card" href="./check.html">
+          <span class="action-kicker">DAILY CHECK</span>
+          <span class="action-title">今日の状態を記録する</span>
+          <span class="action-desc">1分で入力。5回ごとにAI分析が届きます。</span>
+        </a>
+      </div>
 
-    const titleEl = document.getElementById('title');
-    const messageEl = document.getElementById('message');
-    const statusEl = document.getElementById('status');
-    const buttonEl = document.getElementById('openButton');
-    const errorBoxEl = document.getElementById('errorBox');
+      <div class="notice">
+        Mylectは医療診断ではありません。強い痛み、息苦しさ、高熱の持続、意識障害などがある場合は、Mylectの回答を待たず医療機関や救急相談を利用してください。
+      </div>
+    </section>
 
-    let finalFormUrl = '';
-
-    function setStatus(text) {
-      statusEl.textContent = text;
-    }
-
-    function showError(message) {
-      errorBoxEl.innerHTML = `<div class="error">${escapeHtml(message)}</div>`;
-      setStatus('エラーが発生しました');
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    function getTargetFormUrl(formType) {
-      if (formType === 'basic') return FORM_URLS.basic;
-      if (formType === 'check') return FORM_URLS.check;
-      return null;
-    }
-
-    function buildFormUrl(baseUrl, userId) {
-      if (!baseUrl || !baseUrl.includes('__USERID__')) {
-        throw new Error('フォームURLに __USERID__ が含まれていません。プレフィルURLを確認してください。');
-      }
-
-      return baseUrl.replace('__USERID__', encodeURIComponent(userId));
-    }
-
-    function openForm(url) {
-      // LINEアプリ内では外部ブラウザではなくLIFF内で開く
-      if (window.liff && liff.isInClient()) {
-        liff.openWindow({
-          url,
-          external: false
-        });
-      } else {
-        window.location.href = url;
-      }
-    }
-
-    async function main() {
-      try {
-        const targetFormUrl = getTargetFormUrl(type);
-
-        if (!targetFormUrl) {
-          throw new Error(`不明なフォーム種別です: ${type}。type=basic または type=check を指定してください。`);
-        }
-
-        if (type === 'basic') {
-          titleEl.textContent = '基本情報フォームを開きます';
-          messageEl.textContent = 'あなたのLINE IDを自動入力し、体調や生活リズムを記録するフォームへ移動します。';
-        }
-
-        if (type === 'check') {
-          titleEl.textContent = '日時チェックフォームを開きます';
-          messageEl.textContent = 'あなたのLINE IDを自動入力し、今日の状態をやさしく記録するフォームへ移動します。';
-        }
-
-        setStatus('LIFFを初期化しています...');
-
-        if (!LIFF_ID || LIFF_ID === 'YOUR_LIFF_ID_HERE') {
-          throw new Error('LIFF_ID が未設定です。index.html の LIFF_ID を差し替えてください。');
-        }
-
-        await liff.init({ liffId: LIFF_ID });
-
-        setStatus('ログイン状態を確認しています...');
-
-        if (!liff.isLoggedIn()) {
-          liff.login({
-            redirectUri: window.location.href
-          });
-          return;
-        }
-
-        setStatus('LINEプロフィールを取得しています...');
-
-        const profile = await liff.getProfile();
-
-        if (!profile || !profile.userId) {
-          throw new Error('LINE userId を取得できませんでした。LIFF設定を確認してください。');
-        }
-
-        finalFormUrl = buildFormUrl(targetFormUrl, profile.userId);
-
-        setStatus(`連携完了：${profile.displayName || 'LINEユーザー'} さん`);
-
-        buttonEl.classList.add('show');
-        buttonEl.onclick = () => openForm(finalFormUrl);
-
-        // 自動遷移
-        setTimeout(() => {
-          openForm(finalFormUrl);
-        }, 700);
-
-      } catch (err) {
-        console.error(err);
-        showError(err && err.message ? err.message : String(err));
-      }
-    }
-
-    main();
-  </script>
+    <footer class="footer">
+      Mylect / Condition reflection assistant
+    </footer>
+  </main>
 </body>
 </html>
-
 
